@@ -25,6 +25,22 @@ def show_session(key):
 
     return response
 
+@app.route('/clear')
+def clear_session():
+    session.clear()
+    return jsonify({'message': 'Session cleared'})
+
+@app.route('/sessions/<key>/<value>')
+def set_session(key, value):
+    session[key] = value
+    return jsonify({'message': f'Set {key} to {value}'})
+
+@app.route('/secure-cookie')
+def secure_cookie():
+    response = make_response(jsonify({'message': 'Secure cookie set'}))
+    response.set_cookie('secure_cookie', 'secure_value', secure=True, httponly=True)
+    return response
+
 if __name__ == '__main__':
     app.run(port=5555)
     
